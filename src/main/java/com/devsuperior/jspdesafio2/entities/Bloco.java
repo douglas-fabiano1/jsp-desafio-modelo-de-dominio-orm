@@ -3,7 +3,9 @@ package com.devsuperior.jspdesafio2.entities;
 import jakarta.persistence.*;
 
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_bloco")
@@ -17,18 +19,16 @@ public class Bloco {
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant fim;
 
-    @ManyToOne
-    @JoinColumn(name = "atividade_id")
-    private Atividade atividade;
+    @ManyToMany(mappedBy = "blocos")
+    private Set<Atividade> atividade = new HashSet<>();
 
     public Bloco() {
     }
 
-    public Bloco(Integer id, Instant inicio, Instant fim, Atividade atividade) {
+    public Bloco(Integer id, Instant inicio, Instant fim) {
         this.id = id;
         this.inicio = inicio;
         this.fim = fim;
-        this.atividade = atividade;
     }
 
     public Integer getId() {
@@ -55,12 +55,8 @@ public class Bloco {
         this.fim = fim;
     }
 
-    public Atividade getAtividade() {
+    public Set<Atividade> getAtividade() {
         return atividade;
-    }
-
-    public void setAtividade(Atividade atividade) {
-        this.atividade = atividade;
     }
 
     @Override

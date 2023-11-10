@@ -12,15 +12,19 @@ public class Atividade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nome;
+    @Column(columnDefinition = "TEXT")
     private String descricao;
     private Double preco;
 
     @ManyToOne
-    @JoinColumn(name = "categoria_id")
+    @JoinColumn(name="categoria_id")
     private Categoria categoria;
 
-    @OneToMany(mappedBy = "atividade")
-    private List<Bloco> blocos = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(name = "tb_atividade_bloco",
+            joinColumns = @JoinColumn(name = "atividade_id"),
+            inverseJoinColumns = @JoinColumn(name = "bloco_id"))
+    private Set<Bloco> blocos = new HashSet<>();
 
     @ManyToMany(mappedBy = "atividades")
     private Set<Participante> participantes = new HashSet<>();
@@ -76,7 +80,7 @@ public class Atividade {
         this.categoria = categoria;
     }
 
-    public List<Bloco> getBlocos() {
+    public Set<Bloco> getBlocos() {
         return blocos;
     }
 

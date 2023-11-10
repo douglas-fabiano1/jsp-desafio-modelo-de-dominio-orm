@@ -1,17 +1,20 @@
 package com.devsuperior.jspdesafio2.entities;
 
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@Entity
+@Table(name = "tb_participante")
 public class Participante {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nome;
+    @Column(unique = true)
     private String email;
 
     @ManyToMany
